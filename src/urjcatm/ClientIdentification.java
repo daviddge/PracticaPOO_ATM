@@ -28,7 +28,6 @@ public class ClientIdentification extends AtmOperation{
             atm.setOption(cont, null);
         
         long card = (long) atm.getCardNumber();
-        int intentos = 3;
         return comprobarTarjeta(obtenerPin(atm),card);
     }
     
