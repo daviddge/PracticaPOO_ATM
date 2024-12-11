@@ -16,6 +16,6 @@ public class ClientGoodbye extends AtmOperation{
     //Metodos
     @Override
     public boolean doOperation(){
-        
+        return true;
     }
 }

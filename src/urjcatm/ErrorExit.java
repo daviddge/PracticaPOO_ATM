@@ -16,6 +16,6 @@ public class ErrorExit extends AtmOperation{
     //Metodos
     @Override
     public boolean doOperation(){
-        
+        return true;
     }
 }

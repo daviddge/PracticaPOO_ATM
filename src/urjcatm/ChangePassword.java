@@ -15,11 +15,11 @@ public class ChangePassword extends TitledOperation{
     }
     @Override
     public boolean doOperation(){
-        
+        return true;
     }
     @Override
     public String getTitle(){
-        
+        return "String0";
     }
     
 }

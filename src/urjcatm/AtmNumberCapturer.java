@@ -12,9 +12,9 @@ public class AtmNumberCapturer {
  
     //Metodos
     public int captureAmount(){
-        
+        return 0;
     }
     public int capturePassword(){
-        
+        return 0;
     }
 }
