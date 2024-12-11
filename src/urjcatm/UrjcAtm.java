@@ -19,7 +19,6 @@ public class UrjcAtm {
         //Creacion Atm y Server
         ATM atm = new ATM();
         UrjcBankServer bankServer = new UrjcBankServer();
- 
         //Inicio operacion
         OperationContext context = new OperationContext(atm,bankServer);
         ClientManagement client = new ClientManagement(context);
