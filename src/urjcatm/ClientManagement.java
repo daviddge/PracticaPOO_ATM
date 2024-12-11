@@ -79,6 +79,7 @@ public class ClientManagement extends AtmOperation{
             //...
         }else{
             atm.setTitle("Contraseña correcta");
+            atm.setInputAreaText("");
         }
     }
 }

@@ -33,10 +33,12 @@ public class ClientIdentification extends AtmOperation{
     
     private int obtenerPin(ATM atm) {
         StringBuilder texto = new StringBuilder();
+        StringBuilder asteriscos = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             char input = atm.waitEvent(30);
             texto.append(input);
-            atm.setInputAreaText(texto.toString());
+            asteriscos.append('*');
+            atm.setInputAreaText(asteriscos.toString());
         }
         return Integer.parseInt(texto.toString());
     }
