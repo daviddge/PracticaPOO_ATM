@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package urjcatm;
+import sienens.ATM;
 
 /**
  *
@@ -15,6 +16,11 @@ public class WithdrawCash extends TitledOperation{
     }
     @Override
     public boolean doOperation(){
+        ATM atm = super.getOperationContext().getAtm();
+        
+       // atm.setTitle("Ingrese la cantidad a retirar");
+        
+        
         return true;
     }
     @Override

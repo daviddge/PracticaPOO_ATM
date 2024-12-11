@@ -23,6 +23,8 @@ public class ClientManagement extends AtmOperation{
         IdiomSelection IdiomOperation = new IdiomSelection(super.getOperationContext());
         IdiomOperation.doOperation();
         clientIdentification(atm);
+        OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
+        optionMenu.doOperation();
         
         
         return true;
