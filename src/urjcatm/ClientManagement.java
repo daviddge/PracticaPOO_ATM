@@ -84,7 +84,7 @@ public class ClientManagement extends AtmOperation{
                 setLayoutIncorrectPassword(intentos);//Mostrar contraseña incorrecta
             }
             try {   //Pasan 1 seg para cargar siguiente Title
-                Thread.sleep(1000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -95,8 +95,8 @@ public class ClientManagement extends AtmOperation{
                 //Retener tarjeta
                 atm.retainCreditCard(true);
                 setLayoutCardHeld();
-                try {   //Pasan 3 seg para cargar siguiente Title
-                    Thread.sleep(3000);
+                try {   //Pasan 99 seg para cargar siguiente Title
+                    Thread.sleep(99000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
