@@ -59,11 +59,9 @@ public class ClientManagement extends AtmOperation{
     public void clientIdentification(ATM atm){
         ClientIdentification identificationOperation = new ClientIdentification(super.getOperationContext());
         int intentos = 3;
-
         while (intentos > 0 && !identificationOperation.doOperation()){
             --intentos;
-            atm.setTitle("Contraseña incorrecta");
-            atm.setInputAreaText("Intentos restantes: "+intentos);
+            setLayoutIncorrectPassword(intentos);//Mostrar contraseña incorrecta
             try {   //Pasan 1 seg para cargar siguiente Title
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -75,13 +73,78 @@ public class ClientManagement extends AtmOperation{
             //Retener tarjeta
             System.out.println("Retener tarjeta");
             atm.retainCreditCard(true);
-            atm.setTitle("Tarjeta retenida");
+            setLayoutCardHeld();
             atm.setInputAreaText("");
 
             //...
         }else{
-            atm.setTitle("Contraseña correcta");
+            setLayoutCorrectPassword();
             atm.setInputAreaText("");
+        }
+    }
+    private void setLayoutIncorrectPassword(int intentos){
+        String idioma = super.getOperationContext().getIdiom();
+        ATM atm = super.getOperationContext().getAtm();
+        switch(idioma){
+            case("ES"):
+                atm.setTitle("Contraseña incorrecta");
+                atm.setInputAreaText("Intentos restantes: " + intentos);
+                break;
+            case("EN"):
+                atm.setTitle("Incorrect password");
+                atm.setInputAreaText("Remaining attempts: " + intentos);
+                break;
+            case("CA"):
+                atm.setTitle("Contrasenya incorrecta");
+                atm.setInputAreaText("Intents restants: " + intentos);
+                break;
+            case("EU"):
+                atm.setTitle("Pasahitz okerra");
+                atm.setInputAreaText("Gainerako saiakerak: " + intentos);
+                break;
+            default:
+                atm.setTitle("Contraseña incorrecta");
+                atm.setInputAreaText("Intentos restantes: " + intentos);                
+        }
+    }
+    private void setLayoutCorrectPassword(){
+        String idioma = super.getOperationContext().getIdiom();
+        ATM atm = super.getOperationContext().getAtm();
+        switch (idioma) {
+            case ("ES"):
+                atm.setTitle("Contraseña correcta");
+                break;
+            case ("EN"):
+                atm.setTitle("Correct password");
+                break;
+            case ("CA"):
+                atm.setTitle("Contrasenya correcta");
+                break;
+            case ("EU"):
+                atm.setTitle("Pasahitz zuzena");
+                break;
+            default:
+                atm.setTitle("Contraseña correcta");
+        }
+    }
+    private void setLayoutCardHeld(){
+        String idioma = super.getOperationContext().getIdiom();
+        ATM atm = super.getOperationContext().getAtm();
+        switch (idioma) {
+            case ("ES"):
+                atm.setTitle("Tarjeta retenida");
+                break;
+            case ("EN"):
+                atm.setTitle("Card held");
+                break;
+            case ("CA"):
+                atm.setTitle("Targeta retinguda");
+                break;
+            case ("EU"):
+                atm.setTitle("Atxikitako txartela");
+                break;
+            default:
+                atm.setTitle("Tarjeta retenida");
         }
     }
 }

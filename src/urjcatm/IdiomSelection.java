@@ -30,19 +30,19 @@ public class IdiomSelection extends AtmOperation{
         char event = atm.waitEvent(30);
         switch(event){
             case('A'):
-                super.getOperationContext().setIdiom("español");
+                super.getOperationContext().setIdiom("ES");
                 break;
             case('B'):
-                super.getOperationContext().setIdiom("inglés");
+                super.getOperationContext().setIdiom("EN");
                 break;
             case('D'):
-                super.getOperationContext().setIdiom("catalán");
+                super.getOperationContext().setIdiom("CA");
                 break;
             case('E'):
-                super.getOperationContext().setIdiom("euskera");
+                super.getOperationContext().setIdiom("EU");
                 break;
             default:
-                System.out.println("Idioma no detectado");
+                System.out.println("language_not_detected");
                 return false;
         }
         return true;

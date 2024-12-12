@@ -22,8 +22,7 @@ public class ClientIdentification extends AtmOperation{
     @Override
     public boolean doOperation(){
         ATM atm = super.getOperationContext().getAtm();
-        atm.setTitle("Inserte contraseña");
-        atm.setInputAreaText("Contraseña");
+        setLayoutInsertPassword();
         for (int cont = 0; cont < 6; cont++) //Vaciar options
             atm.setOption(cont, null);
         
@@ -52,6 +51,31 @@ public class ClientIdentification extends AtmOperation{
         }catch(RuntimeException e){
             System.out.println(e.getMessage());
             return false;
+        }
+    }
+    private void setLayoutInsertPassword(){
+        String idioma = super.getOperationContext().getIdiom();
+        ATM atm = super.getOperationContext().getAtm();
+        switch(idioma){
+            case("ES"):
+                atm.setTitle("Inserte contraseña");
+                atm.setInputAreaText("Contraseña");
+                break;
+            case("EN"):
+                atm.setTitle("Insert password");
+                atm.setInputAreaText("Password");
+                break;
+            case("CA"):
+                atm.setTitle("Insereix contrasenya");
+                atm.setInputAreaText("Contrasenya");
+                break;
+            case("EU"):
+                atm.setTitle("Pasahitza inserratu");
+                atm.setInputAreaText("Pasahitza");
+                break;
+            default:
+                atm.setTitle("Inserte contraseña");
+                atm.setInputAreaText("Contraseña");             
         }
     }
 }
