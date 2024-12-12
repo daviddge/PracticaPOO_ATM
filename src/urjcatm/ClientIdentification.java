@@ -45,9 +45,8 @@ public class ClientIdentification extends AtmOperation{
                 asteriscos.deleteCharAt(asteriscos.length()-1);
                 i--;
             }else if (input == 'N'){
-                texto.setLength(0);
-                asteriscos.setLength(0);
-                i = 0;
+                //CAMBIAR POR FINALIZAR OPERACION
+                return -1;
             }else{
                 
             }

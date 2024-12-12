@@ -19,15 +19,28 @@ public class ClientManagement extends AtmOperation{
     @Override
     public boolean doOperation(){
         ATM atm = super.getOperationContext().getAtm();
+        atm.retainCreditCard(false);
+        
+        //Obtener tarjeta de credito
         waitForClient(atm);
+        //Seleccionar idioma
         IdiomSelection IdiomOperation = new IdiomSelection(super.getOperationContext());
         IdiomOperation.doOperation();
-        clientIdentification(atm);
-        OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
-        optionMenu.doOperation();
-        
-        
-        return true;
+        //Identificar cliente
+        if (clientIdentification(atm)){
+            OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
+            optionMenu.doOperation();
+            //...
+            ClientGoodbye goodbyeOperation = new ClientGoodbye(super.getOperationContext());
+            //Despedida cliente
+            if (goodbyeOperation.doOperation()){
+                setLayoutGoodbye();
+                return true;
+            }else{
+                setLayoutCardHeld();
+                return false;
+            }
+        }else return super.getOperationContext().getServer().comunicationAvaiable();
     }
     //Metodos
     public void presentOptions(){
@@ -56,30 +69,52 @@ public class ClientManagement extends AtmOperation{
         //Retener tarjeta (no permanente)
         atm.retainCreditCard(false);
     }
-    public void clientIdentification(ATM atm){
+    public boolean clientIdentification(ATM atm){
         ClientIdentification identificationOperation = new ClientIdentification(super.getOperationContext());
         int intentos = 3;
-        while (intentos > 0 && !identificationOperation.doOperation()){
+        boolean conexion = true;
+        boolean identificacion = true;
+        do{
+            identificacion = identificationOperation.doOperation();
             --intentos;
-            setLayoutIncorrectPassword(intentos);//Mostrar contraseña incorrecta
+            //Comprobar si se ha perdido la conexion
+            if (!super.getOperationContext().getServer().comunicationAvaiable()){
+                conexion = false;
+            }else if(!identificacion){
+                setLayoutIncorrectPassword(intentos);//Mostrar contraseña incorrecta
+            }
             try {   //Pasan 1 seg para cargar siguiente Title
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-        //NO SE EJECUTA?
-        if (intentos == 0){
-            //Retener tarjeta
-            System.out.println("Retener tarjeta");
-            atm.retainCreditCard(true);
-            setLayoutCardHeld();
-            atm.setInputAreaText("");
-
-            //...
+        }while (intentos > 0 && !identificacion && conexion);
+        
+        if (conexion){
+            if (intentos == 0){
+                //Retener tarjeta
+                atm.retainCreditCard(true);
+                setLayoutCardHeld();
+                try {   //Pasan 3 seg para cargar siguiente Title
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //atm.setInputAreaText("");
+                return false;
+            }else{
+                //atm.setInputAreaText("");
+                return true;
+            }
         }else{
-            setLayoutCorrectPassword();
-            atm.setInputAreaText("");
+            ErrorExit errorOperation = new ErrorExit(super.getOperationContext());
+            errorOperation.doOperation();
+            try {   //Pasan 1.5 seg para cargar siguiente Title
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
     }
     private void setLayoutIncorrectPassword(int intentos){
@@ -107,29 +142,11 @@ public class ClientManagement extends AtmOperation{
                 atm.setInputAreaText("Intentos restantes: " + intentos);                
         }
     }
-    private void setLayoutCorrectPassword(){
-        String idioma = super.getOperationContext().getIdiom();
-        ATM atm = super.getOperationContext().getAtm();
-        switch (idioma) {
-            case ("ES"):
-                atm.setTitle("Contraseña correcta");
-                break;
-            case ("EN"):
-                atm.setTitle("Correct password");
-                break;
-            case ("CA"):
-                atm.setTitle("Contrasenya correcta");
-                break;
-            case ("EU"):
-                atm.setTitle("Pasahitz zuzena");
-                break;
-            default:
-                atm.setTitle("Contraseña correcta");
-        }
-    }
+
     private void setLayoutCardHeld(){
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
+        atm.setInputAreaText("");
         switch (idioma) {
             case ("ES"):
                 atm.setTitle("Tarjeta retenida");
@@ -147,4 +164,30 @@ public class ClientManagement extends AtmOperation{
                 atm.setTitle("Tarjeta retenida");
         }
     }
+    private void setLayoutGoodbye(){
+        String idioma = super.getOperationContext().getIdiom();
+        ATM atm = super.getOperationContext().getAtm();
+        switch (idioma) {
+            case ("ES"):
+                atm.setTitle("¡Vuelva pronto!");
+                break;
+            case ("EN"):
+                atm.setTitle("Come back soon!");
+                break;
+            case ("CA"):
+                atm.setTitle("¡Torni aviat!");
+                break;
+            case ("EU"):
+                atm.setTitle("¡Itzul zaitez laster!");
+                break;
+            default:
+                atm.setTitle("¡Vuelva pronto!");
+        }
+        try {   //Pasan 2 seg para cargar siguiente Title
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    } 
+    
 }

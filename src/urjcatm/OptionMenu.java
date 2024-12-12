@@ -29,6 +29,7 @@ public class OptionMenu extends AtmOperation{
     atm.setOption(2, "Consultar saldo");
     atm.setOption(3, "Cambiar contraseña");
     atm.setOption(5, "Terminar");
+    atm.setInputAreaText(""); // @david: Para que no se queden los "****" 
 
     char event = atm.waitEvent(30);
     switch(event) {

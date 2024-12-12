@@ -22,6 +22,9 @@ public class UrjcAtm {
         //Inicio operacion
         OperationContext context = new OperationContext(atm,bankServer);
         ClientManagement client = new ClientManagement(context);
-        client.doOperation();
+        while (client.doOperation()){
+            
+        }
+        
     }
 }
