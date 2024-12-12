@@ -150,7 +150,6 @@ public class ClientManagement extends AtmOperation{
         switch (idioma) {
             case ("ES"):
                 atm.setTitle("Tarjeta retenida");
-                atm.setInputAreaText(idioma);
                 break;
             case ("EN"):
                 atm.setTitle("Card held");
