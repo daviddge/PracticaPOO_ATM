@@ -18,10 +18,22 @@ public class WithdrawCash extends TitledOperation{
     public boolean doOperation(){
         ATM atm = super.getOperationContext().getAtm();
         
-       // atm.setTitle("Ingrese la cantidad a retirar");
+        for(int i=0; i < 6; i++)
+            atm.setOption(i, null);
         
-        
+        atm.setTitle("Ingrese la cantidad a retirar");
+        char event = atm.waitEvent(30);
+        String cadena = "";
+        while (event >= '0' && event <= '9') {
+            cadena += event;
+            atm.setInputAreaText(cadena + " €");
+            event = atm.waitEvent(30);
+        }
+        if (event % 10 != 0){
+            atm.setInputAreaText("Cantidad no disponible");
+        }
         return true;
+        
     }
     @Override
     public String getTitle(){
