@@ -30,7 +30,7 @@ public class WithdrawCash extends TitledOperation{
             event = atm.waitEvent(30);
         }
         if (event % 10 != 0){
-            atm.setInputAreaText("Cantidad no disponiblee");
+            atm.setInputAreaText("Cantidad no disponible");
         }
         return true;
         

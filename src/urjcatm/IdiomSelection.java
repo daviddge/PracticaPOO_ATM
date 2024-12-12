@@ -26,8 +26,11 @@ public class IdiomSelection extends AtmOperation{
         atm.setOption(4, "euskera");
         atm.setOption(5, null);
 
-
+        
         char event = atm.waitEvent(30);
+        while(event <'A' || event >'F'){
+            event = atm.waitEvent(30);
+        }
         switch(event){
             case('A'):
                 super.getOperationContext().setIdiom("ES");

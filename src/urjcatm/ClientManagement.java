@@ -108,7 +108,11 @@ public class ClientManagement extends AtmOperation{
             }
         }else{
             ErrorExit errorOperation = new ErrorExit(super.getOperationContext());
-            errorOperation.doOperation();
+            if(errorOperation.doOperation()){
+                
+            }else{
+                
+            }
             try {   //Pasan 1.5 seg para cargar siguiente Title
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
@@ -167,6 +171,7 @@ public class ClientManagement extends AtmOperation{
     private void setLayoutGoodbye(){
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
+        atm.setInputAreaText("");
         switch (idioma) {
             case ("ES"):
                 atm.setTitle("¡Vuelva pronto!");

@@ -29,19 +29,19 @@ public class ClientGoodbye extends AtmOperation{
         
         switch (idioma) {
             case ("ES"):
-                atm.setTitle("Por favor, recoga su tarjeta");
+                atm.setTitle("Por favor, recoja su tarjeta");
                 break;
             case ("EN"):
                 atm.setTitle("Please pick up your card");
                 break;
             case ("CA"):
-                atm.setTitle("");
+                atm.setTitle("Per favor, reculli la seva targeta");
                 break;
             case ("EU"):
-                atm.setTitle("");
+                atm.setTitle("Mesedez, jaso zure txartela");
                 break;
             default:
-                atm.setTitle("Por favor, recoga su tarjeta");
+                atm.setTitle("Por favor, recoja su tarjeta");
         }
     }
     
