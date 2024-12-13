@@ -32,7 +32,8 @@ public class WithdrawCash extends TitledOperation{
         try {
         long accountId = atm.getCardNumber();
         int saldoDisponible = server.avaiable(accountId);
-        atm.setTitle("Saldo disponible: " + saldoDisponible + "€\nIngrese la cantidad a retirar\n");
+        atm.setTitle("Introduzca la cantidad a retirar");
+        atm.setInputAreaText("Saldo disponible: " + saldoDisponible + "€");
         } catch (CommunicationException ex) {
             Logger.getLogger(WithdrawCash.class.getName()).log(Level.SEVERE, null, ex);
             return false;
