@@ -29,7 +29,7 @@ public class ClientManagement extends AtmOperation{
         //Identificar cliente
         if (clientIdentification(atm)){
             OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
-            optionMenu.doOperation();
+            while (optionMenu.doOperation()){}
             //...
             ClientGoodbye goodbyeOperation = new ClientGoodbye(super.getOperationContext());
             //Despedida cliente
@@ -180,10 +180,10 @@ public class ClientManagement extends AtmOperation{
                 atm.setTitle("Come back soon!");
                 break;
             case ("CA"):
-                atm.setTitle("¡Torni aviat!");
+                atm.setTitle("Torni aviat!");
                 break;
             case ("EU"):
-                atm.setTitle("¡Itzul zaitez laster!");
+                atm.setTitle("Itzul zaitez laster!");
                 break;
             default:
                 atm.setTitle("¡Vuelva pronto!");

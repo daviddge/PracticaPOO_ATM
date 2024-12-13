@@ -23,7 +23,7 @@ public class UrjcAtm {
         OperationContext context = new OperationContext(atm,bankServer);
         ClientManagement client = new ClientManagement(context);
         while (client.doOperation()){
-            
+            context.setIdiom("ES"); //Al terminar se vuelve a poner el español
         }
         
     }

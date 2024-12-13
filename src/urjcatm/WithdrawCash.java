@@ -27,7 +27,7 @@ public class WithdrawCash extends TitledOperation{
         UrjcBankServer server = context.getServer();
         
         for(int i=0; i < 6; i++)
-            atm.setOption(i, null);
+//            atm.setOption(i, null);
         
         try {
         long accountId = atm.getCardNumber();
