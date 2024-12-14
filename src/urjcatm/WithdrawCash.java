@@ -27,7 +27,7 @@ public class WithdrawCash extends TitledOperation{
         UrjcBankServer server = context.getServer();
         
         for(int i=0; i < 6; i++)
-//            atm.setOption(i, null);
+            atm.setOption(i, null);
         
         try {
         long accountId = atm.getCardNumber();
@@ -53,21 +53,26 @@ public class WithdrawCash extends TitledOperation{
             dinero = Integer.parseInt(cadena);
         } catch (NumberFormatException e) {
             atm.setInputAreaText("Error al ingresar la cantidad.");
-            return false;
+            atm.waitEvent(30);
+            return true;
         }
     
         if (dinero % 10 != 0){
             atm.setInputAreaText("Cantidad no disponible");
-            return false;
+            atm.waitEvent(30);
+            return true;
         }
     
         try {
             long accountId = atm.getCardNumber();
             if(dinero <= server.avaiable(accountId)){
+                server.doOperation(accountId, dinero);
                 atm.setInputAreaText("Retiro exitoso. Retire su dinero.");
+                atm.waitEvent(30);
             } else {
                 atm.setInputAreaText("Fondos insuficientes.");
-                return false;
+                atm.waitEvent(30);
+                return true;
             }
         } catch (CommunicationException ex) {
             Logger.getLogger(WithdrawCash.class.getName()).log(Level.SEVERE, null, ex);
