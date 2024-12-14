@@ -39,7 +39,6 @@ import sienens.ATM;
             case ('B') -> {
                 // Si el usuario presiona 'B', selecciona "Obtener últimas operaciones"
                 LastOperations lastOperations = new LastOperations(super.getOperationContext());
-                //return lastOperations.doOperation(); // Ejecuta la operación de "Obtener últimas operaciones"
                 lastOperations.doOperation();
             }
             case ('C') -> {
