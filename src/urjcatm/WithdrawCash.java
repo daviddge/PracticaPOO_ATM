@@ -66,9 +66,10 @@ public class WithdrawCash extends TitledOperation{
         try {
             long accountId = atm.getCardNumber();
             if(dinero <= server.avaiable(accountId)){
-                server.doOperation(accountId, dinero);
+                server.doOperation(accountId, -dinero);
                 atm.setInputAreaText("Retiro exitoso. Retire su dinero.");
-                atm.waitEvent(30);
+                atm.expelAmount(dinero, 30);
+                //atm.waitEvent(0);
             } else {
                 atm.setInputAreaText("Fondos insuficientes.");
                 atm.waitEvent(30);
