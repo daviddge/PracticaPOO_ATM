@@ -119,15 +119,15 @@ public class WithdrawCash extends TitledOperation{
     private String getSuccessfulRetirement(String idioma) {
         switch (idioma) {
             case "ES":
-                return "Retiro exitoso , retire su dinero.";
+                return "Retiro exitoso.";
             case "EN":
-                return "Successful withdrawal, withdraw your money.";
+                return "Successful withdrawal.";
             case "CA":
-                return "Retir exitós , retiri els seus diners.";
+                return "Retir exitós.";
             case "EU":
-                return "Erretiratzea arrakastatsua, atera zure dirua.";
+                return "Erretiratzea arrakastatsua.";
             default:
-                return "Retiro exitoso , retire su dinero.";
+                return "Retiro exitoso.";
         }
     }
     

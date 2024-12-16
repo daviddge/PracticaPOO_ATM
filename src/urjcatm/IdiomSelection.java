@@ -19,11 +19,11 @@ public class IdiomSelection extends AtmOperation{
     public boolean doOperation(){
         ATM atm = super.getOperationContext().getAtm();
         atm.setTitle("Seleccione idioma");
-        atm.setOption(0, "español");
-        atm.setOption(1, "inglés");
+        atm.setOption(0, "Español");
+        atm.setOption(1, "Inglés");
         atm.setOption(2, null);
-        atm.setOption(3, "catalán");
-        atm.setOption(4, "euskera");
+        atm.setOption(3, "Catalán");
+        atm.setOption(4, "Euskera");
         atm.setOption(5, null);
 
         
