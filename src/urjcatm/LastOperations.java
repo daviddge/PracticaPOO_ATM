@@ -32,9 +32,9 @@ public class LastOperations extends TitledOperation{
         List<Operation> operaciones;
         try{
         operaciones = server.getLastOperations(accountId);
+        atm.setTitle("Ultimas operaciones del usuario");
              if (operaciones.isEmpty()) {
                 atm.setInputAreaText("No hay operaciones recientes.");
-
              }
              StringBuilder operationsText = new StringBuilder();
              for (int i = 0; i < operaciones.size(); i++) {
@@ -45,7 +45,7 @@ public class LastOperations extends TitledOperation{
                 }
 
                 atm.setInputAreaText(operationsText.toString());
-
+                atm.waitEvent(30); 
 
 
         }catch(CommunicationException e) {

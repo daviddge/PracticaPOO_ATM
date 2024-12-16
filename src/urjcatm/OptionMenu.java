@@ -26,32 +26,37 @@ import sienens.ATM;
         char event = atm.waitEvent(30);
         while (event < 'A' || event > 'F' || event == 'E')
             event = atm.waitEvent(30);
+        
+        boolean success = false;
         switch(event) {
             case ('A') -> {
                 // Si el usuario presiona 'A', selecciona "Sacar dinero"
                 WithdrawCash withdrawCash = new WithdrawCash(super.getOperationContext());
                 //return withdrawCash.doOperation(); // Ejecuta la operación de "Sacar dinero"
-                boolean success = withdrawCash.doOperation();
-                if(!success){
-                    return false;
-                }
+                //boolean success = withdrawCash.doOperation();
+                //if(!success){
+                //   return false;
+                //}
+                success = withdrawCash.doOperation();
             }
             case ('B') -> {
                 // Si el usuario presiona 'B', selecciona "Obtener últimas operaciones"
                 LastOperations lastOperations = new LastOperations(super.getOperationContext());
-                lastOperations.doOperation();
+                //lastOperations.doOperation();
+                success = lastOperations.doOperation();
             }
             case ('C') -> {
                 // Si el usuario presiona 'C', selecciona "Consultar saldo"
                 AccountBalance accountBalance = new AccountBalance(super.getOperationContext());
                 //return accountBalance.doOperation(); // Ejecuta la operación de "Consultar saldo"
-                accountBalance.doOperation();
+                //accountBalance.doOperation();
+                success = accountBalance.doOperation();
             }
             case ('D') -> {
                 // Si el usuario presiona 'D', selecciona "Cambiar contraseña"
                 ChangePassword changePassword = new ChangePassword(super.getOperationContext());
                 //return changePassword.doOperation(); // Ejecuta la operación de "Cambiar contraseña"
-                changePassword.doOperation();
+                //changePassword.doOperation();
             }
             case ('F') -> {
                 // Si el usuario presiona 'E', selecciona "Terminar"
@@ -62,8 +67,12 @@ import sienens.ATM;
                 System.out.println("Operation_error");
                 return false;
             }
+    }
 
-        }
+        if (!success) {
+        System.out.println("La operación no se pudo completar.");
+        return false;
+    }
         return anotherOperation(atm);
     }
     private boolean anotherOperation(ATM atm){
