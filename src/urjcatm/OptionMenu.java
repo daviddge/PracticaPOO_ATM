@@ -128,7 +128,7 @@ import sienens.ATM;
         case ("ES"):
             atm.setTitle("Seleccione una operacion");
             atm.setOption(0,"Sacar dinero");
-            atm.setOption(1,"Obtener ultimas operaciones");
+            atm.setOption(1,"Últimas operaciones");
             atm.setOption(2,"Consultar saldo");
             atm.setOption(3,"Cambiar contraseña");
             atm.setOption(5,"Terminar");
@@ -136,7 +136,7 @@ import sienens.ATM;
         case ("EN"):
             atm.setTitle("Select an operation");
             atm.setOption(0,"Withdraw Money");
-            atm.setOption(1,"View Last Operations");
+            atm.setOption(1,"Last Operations");
             atm.setOption(2,"Check Balance");
             atm.setOption(3,"Change Password");
             atm.setOption(5,"Finish");
@@ -144,7 +144,7 @@ import sienens.ATM;
         case ("EU"):
             atm.setTitle("Hautatu eragiketa bat");
             atm.setOption(0,"Dirua hartu");
-            atm.setOption(1,"Eskuratu azken eragiketak");
+            atm.setOption(1,"Azken eragiketak");
             atm.setOption(2,"Balantzea egiaztatu");
             atm.setOption(3,"Pasahitza aldatu");
             atm.setOption(5,"Amaitu");
@@ -152,7 +152,7 @@ import sienens.ATM;
         case ("CA"):
             atm.setTitle("Seleccioney una operació");
             atm.setOption(0,"Treure diners");
-            atm.setOption(1,"Obtenir ultimes operacions");
+            atm.setOption(1,"Ultimes operacions");
             atm.setOption(2,"Consultar saldo");
             atm.setOption(3,"Canviar contrasenya");
             atm.setOption(5,"Acabar");
@@ -160,7 +160,7 @@ import sienens.ATM;
         default:
             atm.setTitle("Seleccione una operacion");
             atm.setOption(0,"Sacar dinero");
-            atm.setOption(1,"Obtener ultimas operaciones");
+            atm.setOption(1,"Últimas operaciones");
             atm.setOption(2,"Consultar saldo");
             atm.setOption(3,"Cambiar contraseña");
             atm.setOption(5,"Terminar");

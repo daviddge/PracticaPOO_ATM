@@ -5,6 +5,7 @@
 package urjcatm;
 
 import java.util.List;
+import java.util.ArrayList;
 import javax.naming.CommunicationException;
 import sienens.ATM;
 import urjc.Operation;
@@ -32,26 +33,28 @@ public class LastOperations extends TitledOperation{
         List<Operation> operaciones;
         String idioma = super.getOperationContext().getIdiom();
         try{
-        operaciones = server.getLastOperations(accountId);
-        atm.setTitle(getTitle(idioma));
-             if (operaciones.isEmpty()) {
+            operaciones = server.getLastOperations(accountId);
+            atm.setTitle(getTitle(idioma));
+            if (operaciones.isEmpty()) {
                 atm.setInputAreaText(getNoOperationsMessage(idioma));
-             }
-             StringBuilder operationsText = new StringBuilder();
-             for (int i = 0; i < operaciones.size(); i++) {
-             Operation op = operaciones.get(i); 
-             operationsText.append(getOperationDetails(idioma, op));
-                }
+            }
+            List<String> operationsText = new ArrayList<>();
+            for (int i = 0; i < operaciones.size(); i++) {
+                Operation op = operaciones.get(i); 
+                operationsText.add(getOperationDetails(idioma, op));
+            }
 
-                atm.setInputAreaText(operationsText.toString());
-                atm.waitEvent(30); 
-
-
+            atm.print(operationsText);
+            try {   //Pasan 1.5seg para cargar siguiente Title
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }catch(CommunicationException e) {
             atm.setInputAreaText(getErrorMessage(idioma));
             return false;
         }
-        return false;
+        return true;
     }
         // Método para obtener el título según el idioma
     private String getTitle(String idioma) {
@@ -100,33 +103,33 @@ public class LastOperations extends TitledOperation{
                 return "Error al obtener las últimas operaciones.";
         }
     }
-     private String getOperationDetails(String idioma, Operation op) {
-        StringBuilder operationText = new StringBuilder();
+     private String getOperationDetails(String idioma,Operation op) {
+        List<String> operationText = new ArrayList<>();
         switch (idioma) {
             case "ES":
-                operationText.append("Fecha: ").append(op.getDate())
-                             .append(", Detalles: ").append(op.getDetail())
-                             .append(", Cantidad: ").append(op.getAmount()).append("€\n");
+                operationText.add("Fecha: "+op.getDate()+"\n");
+                operationText.add("Detalles: "+op.getDetail()+"\n");
+                operationText.add("Cantidad: "+op.getAmount()+"€\n");
                 break;
             case "EN":
-                operationText.append("Date: ").append(op.getDate())
-                             .append(", Details: ").append(op.getDetail())
-                             .append(", Amount: ").append(op.getAmount()).append("€\n");
+                operationText.add("Date: "+op.getDate()+"\n");
+                operationText.add("Details: "+op.getDetail()+"\n");
+                operationText.add("Amount: "+op.getAmount()+"€\n");
                 break;
             case "CA":
-                operationText.append("Data: ").append(op.getDate())
-                             .append(", Detalls: ").append(op.getDetail())
-                             .append(", Quantitat: ").append(op.getAmount()).append("€\n");
+                operationText.add("Data: "+op.getDate()+"\n");
+                operationText.add("Detalls: "+op.getDetail()+"\n");
+                operationText.add("Quantitat: "+op.getAmount()+"€\n");
                 break;
             case "EU":
-                operationText.append("Data: ").append(op.getDate())
-                             .append(", Xehetasunak: ").append(op.getDetail())
-                             .append(", Kantitatea: ").append(op.getAmount()).append("€\n");
+                operationText.add("Data: "+op.getDate()+"\n");
+                operationText.add("Xehetasunak: "+op.getDetail()+"\n");
+                operationText.add("Kantitatea: "+op.getAmount()+"€\n");
                 break;
             default:
-                operationText.append("Fecha: ").append(op.getDate())
-                             .append(", Detalles: ").append(op.getDetail())
-                             .append(", Cantidad: ").append(op.getAmount()).append("€\n");
+                operationText.add("Fecha: "+op.getDate()+"\n");
+                operationText.add("Detalles: "+op.getDetail()+"\n");
+                operationText.add("Cantidad: "+op.getAmount()+"€\n");
         }
         return operationText.toString();
     }

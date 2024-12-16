@@ -29,7 +29,7 @@ public class AccountBalance extends TitledOperation{
             int saldoDisponible = server.avaiable(accountId);
             atm.setTitle(getTitle(idioma));
             String saldoFormateado = String.format("%,d", saldoDisponible) + "€";
-            atm.setInputAreaText(getBalance(idioma)+ "=" + saldoFormateado);
+            atm.setInputAreaText(getBalance(idioma)+ ": " + saldoFormateado);
             atm.waitEvent(30); 
             return true;
 
