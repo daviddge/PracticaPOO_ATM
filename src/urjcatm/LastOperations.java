@@ -30,18 +30,17 @@ public class LastOperations extends TitledOperation{
 
         long accountId = atm.getCardNumber();
         List<Operation> operaciones;
+        String idioma = super.getOperationContext().getIdiom();
         try{
         operaciones = server.getLastOperations(accountId);
-        atm.setTitle("Ultimas operaciones del usuario");
+        atm.setTitle(getTitle(idioma));
              if (operaciones.isEmpty()) {
-                atm.setInputAreaText("No hay operaciones recientes.");
+                atm.setInputAreaText(getNoOperationsMessage(idioma));
              }
              StringBuilder operationsText = new StringBuilder();
              for (int i = 0; i < operaciones.size(); i++) {
              Operation op = operaciones.get(i); 
-             operationsText.append("Fecha: ").append(op.getDate())
-                           .append(", Detalles: ").append(op.getDetail())
-                           .append(", Cantidad: ").append(op.getAmount()).append("€\n");
+             operationsText.append(getOperationDetails(idioma, op));
                 }
 
                 atm.setInputAreaText(operationsText.toString());
@@ -49,10 +48,87 @@ public class LastOperations extends TitledOperation{
 
 
         }catch(CommunicationException e) {
-            atm.setInputAreaText("Error al obtener las últimas operaciones.");
+            atm.setInputAreaText(getErrorMessage(idioma));
             return false;
         }
         return false;
+    }
+        // Método para obtener el título según el idioma
+    private String getTitle(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Últimas operaciones del usuario";
+            case "EN":
+                return "Last user operations";
+            case "CA":
+                return "Últimes operacions de l'usuari";
+            case "EU":
+                return "Erabiltzailearen azken operazioak";
+            default:
+                return "Últimas operaciones del usuario";
+        }
+    }
+
+    // Método para obtener el mensaje cuando no hay operaciones según el idioma
+    private String getNoOperationsMessage(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "No hay operaciones recientes.";
+            case "EN":
+                return "No recent operations.";
+            case "CA":
+                return "No hi ha operacions recents.";
+            case "EU":
+                return "Ez dago operaziorik berririk.";
+            default:
+                return "No hay operaciones recientes.";
+        }
+    }
+
+    // Método para obtener el mensaje de error según el idioma
+    private String getErrorMessage(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Error al obtener las últimas operaciones.";
+            case "EN":
+                return "Error retrieving the last operations.";
+            case "CA":
+                return "Error en obtenir les últimes operacions.";
+            case "EU":
+                return "Errorea azken operazioak lortzean.";
+            default:
+                return "Error al obtener las últimas operaciones.";
+        }
+    }
+     private String getOperationDetails(String idioma, Operation op) {
+        StringBuilder operationText = new StringBuilder();
+        switch (idioma) {
+            case "ES":
+                operationText.append("Fecha: ").append(op.getDate())
+                             .append(", Detalles: ").append(op.getDetail())
+                             .append(", Cantidad: ").append(op.getAmount()).append("€\n");
+                break;
+            case "EN":
+                operationText.append("Date: ").append(op.getDate())
+                             .append(", Details: ").append(op.getDetail())
+                             .append(", Amount: ").append(op.getAmount()).append("€\n");
+                break;
+            case "CA":
+                operationText.append("Data: ").append(op.getDate())
+                             .append(", Detalls: ").append(op.getDetail())
+                             .append(", Quantitat: ").append(op.getAmount()).append("€\n");
+                break;
+            case "EU":
+                operationText.append("Data: ").append(op.getDate())
+                             .append(", Xehetasunak: ").append(op.getDetail())
+                             .append(", Kantitatea: ").append(op.getAmount()).append("€\n");
+                break;
+            default:
+                operationText.append("Fecha: ").append(op.getDate())
+                             .append(", Detalles: ").append(op.getDetail())
+                             .append(", Cantidad: ").append(op.getAmount()).append("€\n");
+        }
+        return operationText.toString();
     }
     @Override
     public String getTitle(){

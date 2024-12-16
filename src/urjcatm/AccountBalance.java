@@ -20,15 +20,16 @@ public class AccountBalance extends TitledOperation{
         ATM atm = super.getOperationContext().getAtm();
         OperationContext context = super.getOperationContext();
         UrjcBankServer server = context.getServer();
+        String idioma = super.getOperationContext().getIdiom();
         
         for(int i=0; i < 6; i++)
             atm.setOption(i, null);
         try {
             long accountId = atm.getCardNumber();
             int saldoDisponible = server.avaiable(accountId);
-            atm.setTitle("Consulta de saldo");
+            atm.setTitle(getTitle(idioma));
             String saldoFormateado = String.format("%,d", saldoDisponible) + "€";
-            atm.setInputAreaText("Saldo disponible: " + saldoFormateado);
+            atm.setInputAreaText(getBalance(idioma)+ "=" + saldoFormateado);
             atm.waitEvent(30); 
             return true;
 
@@ -37,9 +38,38 @@ public class AccountBalance extends TitledOperation{
             return false;
         }
     }
+    private String getTitle(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Consulta de saldo";
+            case "EN":
+                return "Balance inquiry";
+            case "CA":
+                return "Consulta de saldo";
+            case "EU":
+                return "Balantzearen kontsulta";
+            default:
+                return "Consulta de saldo";
+        }
+    }
+    private String getBalance(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Saldo disponible";
+            case "EN":
+                return "Available balance";
+            case "CA":
+                return "Saldo disponible";
+            case "EU":
+                return "Saldo erabilgarria";
+            default:
+                return "Saldo disponible";
+        }
+    }
     @Override
     public String getTitle(){
         return "String0";
     }
+    
     
 }

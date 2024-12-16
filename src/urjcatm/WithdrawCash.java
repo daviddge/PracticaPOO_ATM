@@ -25,6 +25,7 @@ public class WithdrawCash extends TitledOperation{
         ATM atm = super.getOperationContext().getAtm();
         OperationContext context = super.getOperationContext();
         UrjcBankServer server = context.getServer();
+        String idioma = super.getOperationContext().getIdiom();
         
         for(int i=0; i < 6; i++)
             atm.setOption(i, null);
@@ -32,8 +33,8 @@ public class WithdrawCash extends TitledOperation{
         try {
         long accountId = atm.getCardNumber();
         int saldoDisponible = server.avaiable(accountId);
-        atm.setTitle("Introduzca la cantidad a retirar");
-        atm.setInputAreaText("Saldo disponible: " + saldoDisponible + "€");
+        atm.setTitle(getTitle(idioma));
+        atm.setInputAreaText(getBalance(idioma) + "=" + saldoDisponible + "€");
         } catch (CommunicationException ex) {
             Logger.getLogger(WithdrawCash.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -52,13 +53,13 @@ public class WithdrawCash extends TitledOperation{
         try {
             dinero = Integer.parseInt(cadena);
         } catch (NumberFormatException e) {
-            atm.setInputAreaText("Error al ingresar la cantidad.");
+            atm.setInputAreaText(getError(idioma));
             atm.waitEvent(30);
             return true;
         }
     
         if (dinero % 10 != 0){
-            atm.setInputAreaText("Cantidad no disponible");
+            atm.setInputAreaText(getNoMoney(idioma));
             atm.waitEvent(30);
             return true;
         }
@@ -67,11 +68,11 @@ public class WithdrawCash extends TitledOperation{
             long accountId = atm.getCardNumber();
             if(dinero <= server.avaiable(accountId)){
                 server.doOperation(accountId, -dinero);
-                atm.setInputAreaText("Retiro exitoso. Retire su dinero.");
+                atm.setInputAreaText(getSuccessfulRetirement(idioma));
                 atm.expelAmount(dinero, 30);
                 //atm.waitEvent(0);
             } else {
-                atm.setInputAreaText("Fondos insuficientes.");
+                atm.setInputAreaText(getNoMoney(idioma));
                 atm.waitEvent(30);
                 return true;
             }
@@ -82,6 +83,82 @@ public class WithdrawCash extends TitledOperation{
 
         return true;
         
+    }
+    private String getTitle(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Sacar dinero";
+            case "EN":
+                return "Withdraw Cash";
+            case "CA":
+                return "Treure diners";
+            case "EU":
+                return "Dirua hartu";
+            default:
+                return "Últimas operaciones del usuario";
+        }
+    }
+
+    // Método para obtener el mensaje cuando no hay operaciones según el idioma
+    private String getNoMoney(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Fondos insuficientes.";
+            case "EN":
+                return "Not enough money.";
+            case "CA":
+                return "Diners insuficients.";
+            case "EU":
+                return "Diru nahikoa.";
+            default:
+                return "Fondos insuficientes.";
+        }
+    }
+
+    // Método para obtener el mensaje de error según el idioma
+    private String getSuccessfulRetirement(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Retiro exitoso , retire su dinero.";
+            case "EN":
+                return "Successful withdrawal, withdraw your money.";
+            case "CA":
+                return "Retir exitós , retiri els seus diners.";
+            case "EU":
+                return "Erretiratzea arrakastatsua, atera zure dirua.";
+            default:
+                return "Retiro exitoso , retire su dinero.";
+        }
+    }
+    
+    private String getBalance(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Saldo disponible";
+            case "EN":
+                return "Available balance";
+            case "CA":
+                return "Saldo disponible";
+            case "EU":
+                return "Saldo erabilgarria";
+            default:
+                return "Saldo disponible";
+        }
+    }
+    
+    private String getError(String idioma) {
+        switch (idioma) {
+            case "ES":
+                return "Error al ingresar la cantidad";
+            case "EN":
+                return "Error when entering quantity";
+            case "CA":
+                return "Error en ingressar la quantitat";
+            case "EU":
+                return "Errore bat kantitatea sartzean";
+            default:
+                return "Error al ingresar la cantidad";
+        }
     }
 
     @Override
