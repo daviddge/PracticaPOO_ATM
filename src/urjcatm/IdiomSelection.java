@@ -28,6 +28,8 @@ public class IdiomSelection extends AtmOperation{
 
         
         char event = atm.waitEvent(30);
+        if (event == 'N')
+            return false;
         while(event <'A' || event >'F'){
             event = atm.waitEvent(30);
         }

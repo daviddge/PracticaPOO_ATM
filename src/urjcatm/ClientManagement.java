@@ -25,21 +25,24 @@ public class ClientManagement extends AtmOperation{
         waitForClient(atm);
         //Seleccionar idioma
         IdiomSelection IdiomOperation = new IdiomSelection(super.getOperationContext());
-        IdiomOperation.doOperation();
-        //Identificar cliente
-        if (clientIdentification(atm)){
-            OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
-            while (optionMenu.doOperation()){}
+        if (IdiomOperation.doOperation()){
+            //Identificar cliente
+            if (clientIdentification(atm)) {
+                OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
+                while (optionMenu.doOperation()) {
+                }
+            }
         }
         ClientGoodbye goodbyeOperation = new ClientGoodbye(super.getOperationContext());
-        if (goodbyeOperation.doOperation()){
-                setLayoutGoodbye();
-                return true;
-            }else{
-                atm.retainCreditCard(true);
-                setLayoutCardHeld();
-                return false;
+        if (goodbyeOperation.doOperation()) {
+            setLayoutGoodbye();
+            return true;
+        } else {
+            atm.retainCreditCard(true);
+            setLayoutCardHeld();
+            return false;
         }
+        
     }
     //Metodos
     public void presentOptions(){

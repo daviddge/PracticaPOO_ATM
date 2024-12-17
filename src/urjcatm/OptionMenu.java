@@ -24,7 +24,7 @@ import sienens.ATM;
         
 
         char event = atm.waitEvent(30);
-        while (event < 'A' || event > 'F' || event == 'E')
+        while (event < 'A' || event > 'F' || event == 'E' || event == 'N')
             event = atm.waitEvent(30);
         
         boolean success = false;
@@ -48,10 +48,14 @@ import sienens.ATM;
                 // Si el usuario presiona 'D', selecciona "Cambiar contraseña"
                 ChangePassword changePassword = new ChangePassword(super.getOperationContext());
             }
-            case ('F') -> {
+            case ('F')-> {
                 // Si el usuario presiona 'E', selecciona "Terminar"
                 System.out.println("Operacion terminada.");
                 return false; // Aquí podrías agregar la lógica para terminar la operación o cerrar la sesión
+            }
+            case('N') -> {
+                //Si el usuario presiona el boton de cancelar, se sale de la operacion
+                return false;
             }
             default -> {
                 System.out.println("Operation_error");
