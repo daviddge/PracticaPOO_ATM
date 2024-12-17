@@ -27,7 +27,7 @@ public class AccountBalance extends TitledOperation{
         try {
             long accountId = atm.getCardNumber();
             int saldoDisponible = server.avaiable(accountId);
-            atm.setTitle(getTitle(idioma));
+            atm.setTitle(getTitle());
             String saldoFormateado = String.format("%,d", saldoDisponible) + "€";
             atm.setInputAreaText(getBalance(idioma)+ ": " + saldoFormateado);
             atm.waitEvent(30); 
@@ -38,7 +38,9 @@ public class AccountBalance extends TitledOperation{
             return false;
         }
     }
-    private String getTitle(String idioma) {
+    @Override
+    public String getTitle(){ 
+        String idioma = super.getOperationContext().getIdiom();
         switch (idioma) {
             case "ES":
                 return "Consulta de saldo";
@@ -65,10 +67,6 @@ public class AccountBalance extends TitledOperation{
             default:
                 return "Saldo disponible";
         }
-    }
-    @Override
-    public String getTitle(){
-        return "String0";
     }
     
     

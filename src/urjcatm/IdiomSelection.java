@@ -26,24 +26,24 @@ public class IdiomSelection extends AtmOperation{
         atm.setOption(4, "Euskera");
         atm.setOption(5, null);
 
-        
+        //Pedir que seleccione idioma
         char event = atm.waitEvent(30);
         if (event == 'N')
-            return false;
+            return false; //Si presiona 'N' devuelve tarjeta
         while(event <'A' || event >'F'){
             event = atm.waitEvent(30);
         }
         switch(event){
-            case('A'):
+            case('A')://Español
                 super.getOperationContext().setIdiom("ES");
                 break;
-            case('B'):
+            case('B')://Ingles
                 super.getOperationContext().setIdiom("EN");
                 break;
-            case('D'):
+            case('D')://Catalan
                 super.getOperationContext().setIdiom("CA");
                 break;
-            case('E'):
+            case('E')://Euskera
                 super.getOperationContext().setIdiom("EU");
                 break;
             default:

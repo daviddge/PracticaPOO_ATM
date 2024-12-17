@@ -34,7 +34,7 @@ public class WithdrawCash extends TitledOperation{
             //Mostrar por pantalla operacion
             long accountId = atm.getCardNumber();
             int saldoDisponible = server.avaiable(accountId);
-            atm.setTitle(getTitle(idioma));
+            atm.setTitle(getTitle());
             atm.setInputAreaText(getBalance(idioma) + ": " + saldoDisponible + "€");
         } catch (CommunicationException ex) {
             Logger.getLogger(WithdrawCash.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,7 +76,9 @@ public class WithdrawCash extends TitledOperation{
         return true;
         
     }
-    private String getTitle(String idioma) {
+    @Override
+    public String getTitle(){
+        String idioma = super.getOperationContext().getIdiom();
         switch (idioma) {
             case "ES":
                 return "Sacar dinero";
@@ -153,9 +155,5 @@ public class WithdrawCash extends TitledOperation{
         }
     }
 
-    @Override
-    public String getTitle() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
     

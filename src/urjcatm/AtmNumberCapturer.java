@@ -16,16 +16,16 @@ public class AtmNumberCapturer {
         StringBuilder texto = new StringBuilder();
         int i = 0;
         char input = 0;
-        while (input != 'Y') {
+        while (input != 'Y') { //Hasta que no seleccion 'Y' o 'N', va a estar pidiendo input
             input = atm.waitEvent(30);
-            if (input >= '0' && input <= '9'){
-                texto.append(input);
+            if (input >= '0' && input <= '9'){ //Añade digito
+                texto.append(input);    
                 i++;
-            }else if (input == '-' && texto.length() > 0){
+            }else if (input == '-' && texto.length() > 0){ //Elimina digito
                 texto.deleteCharAt(texto.length()-1);
                 i--;
             }else if (input == 'N'){
-                return -1;
+                return -1;  //Cancelar operacion
             }else{
                 //Si pulsa cualquier otra tecla no ocurre nada
             }
@@ -42,18 +42,18 @@ public class AtmNumberCapturer {
         StringBuilder asteriscos = new StringBuilder();
         int i = 0;
         char input = 0;
-        while (input != 'Y') {
+        while (input != 'Y') {  //Hasta que no seleccion 'Y' o 'N', va a estar pidiendo input
             input = atm.waitEvent(30);
-            if (input >= '0' && input <= '9'){
+            if (input >= '0' && input <= '9'){ //Añade digito
                 texto.append(input);
                 asteriscos.append('*');
                 i++;
-            }else if (input == '-' && asteriscos.length() > 0){
+            }else if (input == '-' && asteriscos.length() > 0){ //Elimina digito
                 texto.deleteCharAt(texto.length()-1);
                 asteriscos.deleteCharAt(asteriscos.length()-1);
                 i--;
             }else if (input == 'N'){
-                return -1;
+                return -1;  //Cancelar operacion
             }else{
                 //Si pulsa cualquier otra tecla no ocurre nada
             }

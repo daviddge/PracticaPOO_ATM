@@ -34,7 +34,7 @@ public class LastOperations extends TitledOperation{
         String idioma = super.getOperationContext().getIdiom();
         try{
             operaciones = server.getLastOperations(accountId);
-            atm.setTitle(getTitle(idioma));
+            atm.setTitle(getTitle());
             if (operaciones.isEmpty()) {
                 atm.setInputAreaText(getNoOperationsMessage(idioma));
             }
@@ -56,8 +56,10 @@ public class LastOperations extends TitledOperation{
         }
         return true;
     }
-        // Método para obtener el título según el idioma
-    private String getTitle(String idioma) {
+    // Método para obtener el título según el idioma
+    @Override
+    public String getTitle() {
+        String idioma = super.getOperationContext().getIdiom();
         switch (idioma) {
             case "ES":
                 return "Últimas operaciones del usuario";
@@ -132,10 +134,6 @@ public class LastOperations extends TitledOperation{
                 operationText.add("Cantidad: "+op.getAmount()+"€\n");
         }
         return operationText.toString();
-    }
-    @Override
-    public String getTitle(){
-        return "String0";
     }
     
 }

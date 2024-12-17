@@ -47,6 +47,7 @@ import sienens.ATM;
             case ('D') -> {
                 // Si el usuario presiona 'D', selecciona "Cambiar contraseña"
                 ChangePassword changePassword = new ChangePassword(super.getOperationContext());
+                success = changePassword.doOperation();
             }
             case ('F')-> {
                 // Si el usuario presiona 'E', selecciona "Terminar"

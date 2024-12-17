@@ -22,7 +22,7 @@ public class UrjcAtm {
         //Inicio operacion
         OperationContext context = new OperationContext(atm,bankServer);
         ClientManagement client = new ClientManagement(context);
-        while (client.doOperation()){
+        while (client.doOperation()){    //Si cajero retiene tarjeta, deja de operar
             context.setIdiom("ES"); //Al terminar se vuelve a poner el español
         }
         

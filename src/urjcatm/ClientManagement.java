@@ -28,24 +28,28 @@ public class ClientManagement extends AtmOperation{
         if (IdiomOperation.doOperation()){
             //Identificar cliente
             if (clientIdentification(atm)) {
-                OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
-                while (optionMenu.doOperation()) {
-                }
+                presentOptions(); //Llamada a optionMenus
             }
         }
+        //Despedida
         ClientGoodbye goodbyeOperation = new ClientGoodbye(super.getOperationContext());
         if (goodbyeOperation.doOperation()) {
-            setLayoutGoodbye();
+            setLayoutGoodbye(); //Metodo privado para escribir por pantalla
             return true;
         } else {
+            //Si no recoge tarjeta, se retiene
             atm.retainCreditCard(true);
-            setLayoutCardHeld();
+            setLayoutCardHeld();//Metodo privado para escribir por pantalla
             return false;
         }
         
     }
     //Metodos
+    //Crea y llama a OptionMenu
     public void presentOptions(){
+        OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
+                while (optionMenu.doOperation()) {
+                }
     }
     public void waitForClient(ATM atm){//Obtener tarjeta credito
         atm.setTitle("Bienvenido");
@@ -74,8 +78,8 @@ public class ClientManagement extends AtmOperation{
         ClientIdentification identificationOperation = new ClientIdentification(super.getOperationContext());
         return identificationOperation.doOperation();
     }
-    
-    private void setLayoutGoodbye(){
+    //Metodo privado para escribir por pantalla
+    private void setLayoutGoodbye(){ 
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
         atm.setInputAreaText("");
@@ -101,6 +105,7 @@ public class ClientManagement extends AtmOperation{
             e.printStackTrace();
         }
     }
+    //Metodo privado para escribir por pantalla
     private void setLayoutCardHeld() {
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();

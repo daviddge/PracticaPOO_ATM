@@ -26,7 +26,6 @@ public class ClientGoodbye extends AtmOperation{
         ATM atm = super.getOperationContext().getAtm();
         for (int i = 0; i < 6; i++)
             atm.setOption(i,null);
-//        atm.setInputAreaText("");
         switch (idioma) {
             case ("ES"):
                 atm.setTitle("Por favor, recoja su tarjeta");

@@ -25,25 +25,31 @@ public class ClientIdentification extends AtmOperation{
         int intentos = 3;
         boolean conexion = true;
         AtmNumberCapturer Atm_Nc = new AtmNumberCapturer();
-        setLayoutInsertPassword();
+        //Pedimos pin por pimer vez
+        setLayoutInsertPassword(); 
         int pin = Atm_Nc.capturePassword(atm);
-        
+        //Bucle para pedir pin
         while (intentos > 0 && conexion && !comprobarTarjeta(pin,atm.getCardNumber())){
             //Comprobar si se ha perdido la conexion
             if (!super.getOperationContext().getServer().comunicationAvaiable()){
-                conexion = false;
+                //En caso de que falle la conexion
+                conexion = false; //Termina bucle
             }else if (pin == -1){
-                return false;
+                //En caso de que presione 'N'
+                return false;     //Termina operacion
             }else{
+                //En caso de que falle la contraseña
                 --intentos;
                 setLayoutIncorrectPassword(intentos);//Mostrar contraseña incorrecta
             }
-            try {   //Pasan 1 seg para cargar siguiente Title
+            try {   
+                //Pasan 1 seg para cargar siguiente Title
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (intentos > 0){
+                //Pedir pin
                 setLayoutInsertPassword();
                 pin = Atm_Nc.capturePassword(atm);
             }
@@ -61,9 +67,11 @@ public class ClientIdentification extends AtmOperation{
                 }
                 return false;
             }else{
+                //Si todo ha salido bien
                 return true;
             }
         }else{
+            //Si falla la conexion
             ErrorExit errorOperation = new ErrorExit(super.getOperationContext());
             errorOperation.doOperation();
             try {   //Pasan 1.5 seg para cargar siguiente Title
@@ -74,6 +82,7 @@ public class ClientIdentification extends AtmOperation{
             return false;
         }
     }
+    //Metodo privado para validar contraseña
     private boolean comprobarTarjeta(int pin, long card){
         //Comunica con el servidor para comprobar contraseña
         try{
@@ -86,6 +95,7 @@ public class ClientIdentification extends AtmOperation{
             return false;
         }
     }
+    //Metodo privado para escribir por pantalla
     private void setLayoutInsertPassword(){
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
@@ -113,6 +123,7 @@ public class ClientIdentification extends AtmOperation{
                 atm.setInputAreaText("Contraseña");             
         }
     }
+    //Metodo privado para escribir por pantalla
     private void setLayoutCardHeld() {
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
@@ -135,6 +146,7 @@ public class ClientIdentification extends AtmOperation{
                 atm.setTitle("Tarjeta retenida");
         }
     }
+    //Metodo privado para escribir por pantalla
     private void setLayoutIncorrectPassword(int intentos){
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
