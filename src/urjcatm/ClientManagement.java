@@ -30,21 +30,19 @@ public class ClientManagement extends AtmOperation{
         if (clientIdentification(atm)){
             OptionMenu optionMenu = new OptionMenu(super.getOperationContext());
             while (optionMenu.doOperation()){}
-            //...
-            ClientGoodbye goodbyeOperation = new ClientGoodbye(super.getOperationContext());
-            //Despedida cliente
-            if (goodbyeOperation.doOperation()){
+        }
+        ClientGoodbye goodbyeOperation = new ClientGoodbye(super.getOperationContext());
+        if (goodbyeOperation.doOperation()){
                 setLayoutGoodbye();
                 return true;
             }else{
+                atm.retainCreditCard(true);
                 setLayoutCardHeld();
                 return false;
-            }
-        }else return super.getOperationContext().getServer().comunicationAvaiable();
+        }
     }
     //Metodos
     public void presentOptions(){
-        
     }
     public void waitForClient(ATM atm){//Obtener tarjeta credito
         atm.setTitle("Bienvenido");
@@ -71,103 +69,9 @@ public class ClientManagement extends AtmOperation{
     }
     public boolean clientIdentification(ATM atm){
         ClientIdentification identificationOperation = new ClientIdentification(super.getOperationContext());
-        int intentos = 3;
-        boolean conexion = true;
-        boolean identificacion = true;
-        do{
-            identificacion = identificationOperation.doOperation();
-            --intentos;
-            //Comprobar si se ha perdido la conexion
-            if (!super.getOperationContext().getServer().comunicationAvaiable()){
-                conexion = false;
-            }else if(!identificacion){
-                setLayoutIncorrectPassword(intentos);//Mostrar contraseña incorrecta
-            }
-            try {   //Pasan 1 seg para cargar siguiente Title
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }while (intentos > 0 && !identificacion && conexion);
-        
-        if (conexion){
-            if (intentos == 0){
-                //Retener tarjeta
-                atm.retainCreditCard(true);
-                setLayoutCardHeld();
-                try {   //Pasan 99 seg para cargar siguiente Title
-                    Thread.sleep(99000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //atm.setInputAreaText("");
-                return false;
-            }else{
-                //atm.setInputAreaText("");
-                return true;
-            }
-        }else{
-            ErrorExit errorOperation = new ErrorExit(super.getOperationContext());
-            if(errorOperation.doOperation()){
-                
-            }else{
-                
-            }
-            try {   //Pasan 1.5 seg para cargar siguiente Title
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
+        return identificationOperation.doOperation();
     }
-    private void setLayoutIncorrectPassword(int intentos){
-        String idioma = super.getOperationContext().getIdiom();
-        ATM atm = super.getOperationContext().getAtm();
-        switch(idioma){
-            case("ES"):
-                atm.setTitle("Contraseña incorrecta");
-                atm.setInputAreaText("Intentos restantes: " + intentos);
-                break;
-            case("EN"):
-                atm.setTitle("Incorrect password");
-                atm.setInputAreaText("Remaining attempts: " + intentos);
-                break;
-            case("CA"):
-                atm.setTitle("Contrasenya incorrecta");
-                atm.setInputAreaText("Intents restants: " + intentos);
-                break;
-            case("EU"):
-                atm.setTitle("Pasahitz okerra");
-                atm.setInputAreaText("Gainerako saiakerak: " + intentos);
-                break;
-            default:
-                atm.setTitle("Contraseña incorrecta");
-                atm.setInputAreaText("Intentos restantes: " + intentos);                
-        }
-    }
-
-    private void setLayoutCardHeld(){
-        String idioma = super.getOperationContext().getIdiom();
-        ATM atm = super.getOperationContext().getAtm();
-        atm.setInputAreaText("");
-        switch (idioma) {
-            case ("ES"):
-                atm.setTitle("Tarjeta retenida");
-                break;
-            case ("EN"):
-                atm.setTitle("Card held");
-                break;
-            case ("CA"):
-                atm.setTitle("Targeta retinguda");
-                break;
-            case ("EU"):
-                atm.setTitle("Atxikitako txartela");
-                break;
-            default:
-                atm.setTitle("Tarjeta retenida");
-        }
-    }
+    
     private void setLayoutGoodbye(){
         String idioma = super.getOperationContext().getIdiom();
         ATM atm = super.getOperationContext().getAtm();
@@ -193,6 +97,27 @@ public class ClientManagement extends AtmOperation{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    } 
+    }
+    private void setLayoutCardHeld() {
+        String idioma = super.getOperationContext().getIdiom();
+        ATM atm = super.getOperationContext().getAtm();
+        atm.setInputAreaText("");
+        switch (idioma) {
+            case ("ES"):
+                atm.setTitle("Tarjeta retenida");
+                break;
+            case ("EN"):
+                atm.setTitle("Card held");
+                break;
+            case ("CA"):
+                atm.setTitle("Targeta retinguda");
+                break;
+            case ("EU"):
+                atm.setTitle("Atxikitako txartela");
+                break;
+            default:
+                atm.setTitle("Tarjeta retenida");
+        }
+    }
     
 }

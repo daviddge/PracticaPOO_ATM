@@ -25,9 +25,7 @@ public class AtmNumberCapturer {
                 texto.deleteCharAt(texto.length()-1);
                 i--;
             }else if (input == 'N'){
-                //CAMBIAR POR FINALIZAR OPERACION
-                texto.setLength(0);
-                i = 0;
+                return -1;
             }else{
                 //Si pulsa cualquier otra tecla no ocurre nada
             }
@@ -55,10 +53,7 @@ public class AtmNumberCapturer {
                 asteriscos.deleteCharAt(asteriscos.length()-1);
                 i--;
             }else if (input == 'N'){
-                //CAMBIAR POR FINALIZAR OPERACION
-                texto.setLength(0);
-                asteriscos.setLength(0);
-                i = 0;
+                return -1;
             }else{
                 //Si pulsa cualquier otra tecla no ocurre nada
             }

@@ -40,15 +40,6 @@ public class WithdrawCash extends TitledOperation{
             Logger.getLogger(WithdrawCash.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        /*
-        char event = atm.waitEvent(30);
-        String cadena = "";
-        while (event >= '0' && event <= '9') {
-            cadena += event;
-            atm.setInputAreaText(cadena + " €");
-            event = atm.waitEvent(30);
-        }
-        */
         AtmNumberCapturer ATM_Nc = new AtmNumberCapturer();
         int dinero;
         try {
