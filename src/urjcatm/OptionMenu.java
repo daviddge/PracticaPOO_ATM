@@ -70,7 +70,7 @@ import sienens.ATM;
     }
 
         if (!success) {
-        System.out.println("La operación no se pudo completar.");
+            System.out.println("La operacion no se pudo completar.");
         return false;
     }
         return anotherOperation(atm);

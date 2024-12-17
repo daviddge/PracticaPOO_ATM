@@ -27,31 +27,32 @@ public class WithdrawCash extends TitledOperation{
         UrjcBankServer server = context.getServer();
         String idioma = super.getOperationContext().getIdiom();
         
-        for(int i=0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
             atm.setOption(i, null);
         
         try {
-        long accountId = atm.getCardNumber();
-        int saldoDisponible = server.avaiable(accountId);
-        atm.setTitle(getTitle(idioma));
-        atm.setInputAreaText(getBalance(idioma) + ": " + saldoDisponible + "€");
+            //Mostrar por pantalla operacion
+            long accountId = atm.getCardNumber();
+            int saldoDisponible = server.avaiable(accountId);
+            atm.setTitle(getTitle(idioma));
+            atm.setInputAreaText(getBalance(idioma) + ": " + saldoDisponible + "€");
         } catch (CommunicationException ex) {
             Logger.getLogger(WithdrawCash.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+        /*
         char event = atm.waitEvent(30);
         String cadena = "";
-        
         while (event >= '0' && event <= '9') {
             cadena += event;
             atm.setInputAreaText(cadena + " €");
             event = atm.waitEvent(30);
         }
-    
+        */
+        AtmNumberCapturer ATM_Nc = new AtmNumberCapturer();
         int dinero;
         try {
-            dinero = Integer.parseInt(cadena);
+            dinero = ATM_Nc.captureAmount(atm);
         } catch (NumberFormatException e) {
             atm.setInputAreaText(getError(idioma));
             atm.waitEvent(30);
@@ -63,10 +64,10 @@ public class WithdrawCash extends TitledOperation{
             atm.waitEvent(30);
             return true;
         }
-    
+        //Comprobar y retirar dinero
         try {
             long accountId = atm.getCardNumber();
-            if(dinero <= server.avaiable(accountId)){
+            if (dinero <= server.avaiable(accountId)){
                 server.doOperation(accountId, -dinero);
                 atm.setInputAreaText(getSuccessfulRetirement(idioma));
                 atm.expelAmount(dinero, 30);

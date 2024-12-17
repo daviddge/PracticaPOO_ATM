@@ -27,41 +27,9 @@ public class ClientIdentification extends AtmOperation{
             atm.setOption(cont, null);
         
         long card = (long) atm.getCardNumber();
-        return comprobarTarjeta(obtenerPin(atm),card);
+        AtmNumberCapturer Atm_Nc = new AtmNumberCapturer();
+        return comprobarTarjeta(Atm_Nc.capturePassword(atm),card);
     }
-    
-    private int obtenerPin(ATM atm) {
-        StringBuilder texto = new StringBuilder();
-        StringBuilder asteriscos = new StringBuilder();
-        int i = 0;
-        char input = 0;
-        while (input != 'Y') {
-            input = atm.waitEvent(30);
-            if (input >= '0' && input <= '9'){
-                texto.append(input);
-                asteriscos.append('*');
-                i++;
-            }else if (input == '-' && asteriscos.length() > 0){
-                texto.deleteCharAt(texto.length()-1);
-                asteriscos.deleteCharAt(asteriscos.length()-1);
-                i--;
-            }else if (input == 'N'){
-                //CAMBIAR POR FINALIZAR OPERACION
-                texto.setLength(0);
-                asteriscos.setLength(0);
-                i = 0;
-            }else{
-                
-            }
-            atm.setInputAreaText(asteriscos.toString());
-        }
-        if (texto.length() > 0){
-            return Integer.parseInt(texto.toString());
-        }else{
-            return 0;
-        }
-    }
-
     private boolean comprobarTarjeta(int pin, long card){
         try{
             return super.getOperationContext().getServer().testPassword(pin, card);
