@@ -26,6 +26,8 @@ public class AtmNumberCapturer {
                 i--;
             }else if (input == 'N'){
                 return -1;  //Cancelar operacion
+            }else if (input == 0){
+                return 0;
             }else{
                 //Si pulsa cualquier otra tecla no ocurre nada
             }
@@ -54,6 +56,8 @@ public class AtmNumberCapturer {
                 i--;
             }else if (input == 'N'){
                 return -1;  //Cancelar operacion
+            }else if (input == 0){
+                return 0;
             }else{
                 //Si pulsa cualquier otra tecla no ocurre nada
             }

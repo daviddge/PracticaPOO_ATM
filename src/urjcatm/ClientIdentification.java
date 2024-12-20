@@ -34,7 +34,7 @@ public class ClientIdentification extends AtmOperation{
             if (!super.getOperationContext().getServer().comunicationAvaiable()){
                 //En caso de que falle la conexion
                 conexion = false; //Termina bucle
-            }else if (pin == -1){
+            }else if (pin == -1 || pin == 0){
                 //En caso de que presione 'N'
                 return false;     //Termina operacion
             }else{
@@ -48,7 +48,7 @@ public class ClientIdentification extends AtmOperation{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (intentos > 0){
+            if (intentos > 0 && conexion == true){
                 //Pedir pin
                 setLayoutInsertPassword();
                 pin = Atm_Nc.capturePassword(atm);
